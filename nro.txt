@@ -1,4 +1,4 @@
-```
+
 mostrarcad macro text
 push ax
 push dx
@@ -12,11 +12,12 @@ endm
 
 data segment   
  salto db 10,13,"$"    
- espr db 10,13,"El numerode Pares es : ",10,13,"$"
+ espr db 10,13,"El numerode Par: ",10,13,"$"
+ noespr db 10,13,"El numerode Par: ",10,13,"$"
  y dw 0
  num db 12 dup("$")    
  cad db 12 dup("$")    
- nrod db 0
+ nrod dw 0
 ends
 
 stack segment
@@ -33,12 +34,21 @@ start:
     call leernum 
 	mov ax,0
 	mov ax,nrod
-    call numcad   
-    mostrarcad salto
-    mostrarcad num
+	mov bx,2
+	div bx
+	cm dx,0
+	je espar
+	noespar:
+	mostrarcad noespr
+	jmp fin
+	espar:
+	mostrarcad espr
+    ;mostrarcad salto
+    ;mostrarcad num
     ;mostrarcad espr
     ;mostrarcad cad
 
+	fin:
     ;---
     mov ax, 4c00h 
     int 21h    
@@ -126,4 +136,3 @@ start:
 ends
 
 end start
-```
